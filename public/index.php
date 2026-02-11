@@ -57,9 +57,20 @@ $pdo = Database::pdo();
 $taskController = new TaskController(new TaskRepository($pdo), new TaskService());
 $projectController = new ProjectController(new ProjectRepository($pdo), new ProjectService());
 
-$entity = $request->entity();
+$controllers = [
+    'tasks' => $taskController,
+    'projects' => $projectController,
+];
+
+$defaultEntity = 'tasks';
+if (!array_key_exists($defaultEntity, $controllers)) {
+    $defaultEntity = (string) array_key_first($controllers);
+}
+
+
+$entity = $request->entity(array_keys($controllers), $defaultEntity);
 $action = $request->action();
-$controller = $entity === 'projects' ? $projectController : $taskController;
+$controller = $controllers[$entity];
 
 if ($request->isPost()) {
     $method = strtoupper((string) ($_POST['_method'] ?? 'POST'));

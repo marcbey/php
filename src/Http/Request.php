@@ -8,7 +8,6 @@ namespace App\Http;
 
 final class Request
 {
-    private const ENTITIES = ['tasks', 'projects'];
     private const ACTIONS = ['index', 'create', 'edit', 'store', 'update', 'delete'];
 
     /**
@@ -59,15 +58,17 @@ final class Request
     }
 
     /**
-     * Liefert die angeforderte Entitaet (`tasks` oder `projects`) aus Whitelist.
-     * Unbekannte Entitaeten werden auf `tasks` normalisiert.
-     * Beispiel: `$entity = $request->entity();` in `/public/index.php`.
+     * Liefert die angeforderte Entitaet aus einer uebergebenen Whitelist.
+     * Unbekannte Entitaeten werden auf die Default-Entitaet normalisiert.
+     * Beispiel: `$entity = $request->entity(array_keys($controllers), 'tasks');`.
+     *
+     * @param list<string> $allowedEntities
      */
-    public function entity(): string
+    public function entity(array $allowedEntities, string $defaultEntity): string
     {
-        $entity = (string) ($this->get['entity'] ?? 'tasks');
-        if (!in_array($entity, self::ENTITIES, true)) {
-            return 'tasks';
+        $entity = (string) ($this->get['entity'] ?? $defaultEntity);
+        if (!in_array($entity, $allowedEntities, true)) {
+            return $defaultEntity;
         }
 
         return $entity;
