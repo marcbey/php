@@ -67,7 +67,6 @@ if (!array_key_exists($defaultEntity, $controllers)) {
     $defaultEntity = (string) array_key_first($controllers);
 }
 
-
 $entity = $request->entity(array_keys($controllers), $defaultEntity);
 $action = $request->action();
 $controller = $controllers[$entity];
@@ -76,15 +75,19 @@ if ($request->isPost()) {
     $method = strtoupper((string) ($_POST['_method'] ?? 'POST'));
     if ($method === 'DELETE') {
         $controller->delete($request);
-    } elseif ($action === 'update') {
+    } elseif ($action === Request::ACTION_UPDATE) {
         $controller->update($request);
-    } else {
+    } elseif ($action === Request::ACTION_STORE) {
         $controller->store($request);
+    } else {
+        http_response_code(400);
+        echo 'Ungültige Action.';
+        exit;
     }
 } else {
-    if ($action === 'create') {
+    if ($action === Request::ACTION_CREATE) {
         $content = $controller->create($request);
-    } elseif ($action === 'edit') {
+    } elseif ($action === Request::ACTION_EDIT) {
         $content = $controller->edit($request);
     } else {
         $content = $controller->index($request);

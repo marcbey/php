@@ -8,7 +8,20 @@ namespace App\Http;
 
 final class Request
 {
-    private const ACTIONS = ['index', 'create', 'edit', 'store', 'update', 'delete'];
+    public const ACTION_INDEX = 'index';
+    public const ACTION_CREATE = 'create';
+    public const ACTION_EDIT = 'edit';
+    public const ACTION_STORE = 'store';
+    public const ACTION_UPDATE = 'update';
+    public const ACTION_DELETE = 'delete';
+    public const ACTIONS = [
+        self::ACTION_INDEX,
+        self::ACTION_CREATE,
+        self::ACTION_EDIT,
+        self::ACTION_STORE,
+        self::ACTION_UPDATE,
+        self::ACTION_DELETE,
+    ];
 
     /**
      * Konstruktor fuer ein kapseltes Request-Objekt auf Basis von Superglobals.
@@ -49,9 +62,9 @@ final class Request
      */
     public function action(): string
     {
-        $action = (string) ($this->get['action'] ?? 'index');
+        $action = (string) ($this->get['action'] ?? self::ACTION_INDEX);
         if (!in_array($action, self::ACTIONS, true)) {
-            return 'index';
+            return self::ACTION_INDEX;
         }
 
         return $action;
