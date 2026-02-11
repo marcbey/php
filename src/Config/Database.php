@@ -14,8 +14,8 @@ final class Database
         $host = self::env('DB_HOST', '127.0.0.1');
         $port = self::env('DB_PORT', '3306');
         $dbName = self::env('DB_NAME', 'demo_crud');
-        $user = self::env('DB_USER', 'root');
-        $pass = self::env('DB_PASS', '');
+        $user = self::env('DB_USER', 'marc');
+        $pass = self::env('DB_PASS', 'marc');
 
         $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4', $host, $port, $dbName);
 
@@ -27,7 +27,7 @@ final class Database
             ]);
         } catch (PDOException $e) {
             http_response_code(500);
-            echo 'DB-Verbindung fehlgeschlagen.';
+            echo 'DB-Verbindung fehlgeschlagen: ' . $e->getMessage();
             exit;
         }
     }

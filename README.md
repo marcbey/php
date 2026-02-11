@@ -12,10 +12,12 @@ Kurztest-Demo ohne Framework: CRUD-Operationen mit PDO, OOP, HTML/CSS.
 1. `.env.example` nach `.env` kopieren und DB-Zugangsdaten anpassen.
 2. Datenbank anlegen und Schema + Seeds importieren:
 
+To start mariadb now and restart at login: brew services start mariadb
+
 ```bash
-mysql -u root -p -e "CREATE DATABASE demo_crud CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
-mysql -u root -p demo_crud < schema.sql
-mysql -u root -p demo_crud < seed.sql
+mysql -u marc -e "CREATE DATABASE demo_crud CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+mysql -u marc demo_crud < schema.sql
+mysql -u marc demo_crud < seed.sql
 ```
 
 3. Lokalen Server starten:
