@@ -1,3 +1,4 @@
+<!-- File purpose: layout template in the src view layer for the CRUD demo app. -->
 <!doctype html>
 <html lang="de">
   <head>

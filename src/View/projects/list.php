@@ -1,4 +1,6 @@
 <?php
+
+// File purpose: list module in the src layer for the CRUD demo app.
 /** @var App\Model\Project[] $projects */
 ?>
 <section class="header">

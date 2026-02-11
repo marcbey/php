@@ -1,5 +1,7 @@
 <?php
 
+// File purpose: autoload module in the src layer for the CRUD demo app.
+
 declare(strict_types=1);
 
 spl_autoload_register(function (string $class): void {

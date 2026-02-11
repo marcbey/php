@@ -1,5 +1,7 @@
 <?php
 
+// File purpose: Env module in the src layer for the CRUD demo app.
+
 declare(strict_types=1);
 
 namespace App\Config;
