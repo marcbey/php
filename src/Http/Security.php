@@ -95,6 +95,20 @@ final class Security
     }
 
     /**
+     * Vergleicht Session-CSRF-Token mit dem vom Formular gesendeten Token.
+     * Bricht den Request mit 419 ab, wenn Tokens fehlen oder nicht uebereinstimmen.
+     */
+    public static function assertCsrf(Request $request): void
+    {
+        $token = (string) ($_POST['csrf_token'] ?? '');
+        if (!hash_equals($request->csrfToken(), $token)) {
+            http_response_code(419);
+            echo 'Ungültiges CSRF-Token.';
+            exit;
+        }
+    }
+
+    /**
      * Extrahiert Host (optional inkl. Port) aus Origin/Referer-URL.
      * Isoliert den Vergleichswert fuer `assertSameOrigin()`.
      * Beispiel: `self::extractHost('https://example.com:8443/path')` ergibt `example.com:8443`.

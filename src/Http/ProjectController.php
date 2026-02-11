@@ -98,7 +98,7 @@ final class ProjectController
      */
     public function store(Request $request): void
     {
-        $this->assertCsrf($request);
+        Security::assertCsrf($request);
 
         $result = $this->service->validate($_POST);
         if (!$result->ok) {
@@ -132,7 +132,7 @@ final class ProjectController
      */
     public function update(Request $request): void
     {
-        $this->assertCsrf($request);
+        Security::assertCsrf($request);
 
         $id = $request->id();
         if ($id === null) {
@@ -179,7 +179,7 @@ final class ProjectController
      */
     public function delete(Request $request): void
     {
-        $this->assertCsrf($request);
+        Security::assertCsrf($request);
 
         $id = $request->id();
         if ($id === null) {
@@ -190,20 +190,6 @@ final class ProjectController
         $this->repository->delete($id);
         $this->flash('Projekt gelöscht.');
         Response::redirect('/?entity=projects');
-    }
-
-    /**
-     * Erzwingt gueltiges CSRF-Token fuer alle schreibenden Projektoperationen.
-     * Beispiel: interner Guard in `store()`, `update()`, `delete()`.
-     */
-    private function assertCsrf(Request $request): void
-    {
-        $token = (string) ($_POST['csrf_token'] ?? '');
-        if (!hash_equals($request->csrfToken(), $token)) {
-            http_response_code(419);
-            echo 'Ungültiges CSRF-Token.';
-            exit;
-        }
     }
 
     /**

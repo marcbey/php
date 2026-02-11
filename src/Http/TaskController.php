@@ -92,7 +92,7 @@ final class TaskController
      */
     public function store(Request $request): void
     {
-        $this->assertCsrf($request);
+        Security::assertCsrf($request);
 
         $result = $this->service->validate($_POST);
         if (!$result->ok) {
@@ -125,7 +125,7 @@ final class TaskController
      */
     public function update(Request $request): void
     {
-        $this->assertCsrf($request);
+        Security::assertCsrf($request);
 
         $id = $request->id();
         if ($id === null) {
@@ -171,7 +171,7 @@ final class TaskController
      */
     public function delete(Request $request): void
     {
-        $this->assertCsrf($request);
+        Security::assertCsrf($request);
 
         $id = $request->id();
         if ($id === null) {
@@ -182,21 +182,6 @@ final class TaskController
         $this->repository->delete($id);
         $this->flash('Eintrag gelöscht.');
         Response::redirect('/?entity=tasks');
-    }
-
-    /**
-     * Vergleicht Session-CSRF-Token mit Form-Token und bricht bei Abweichung ab.
-     * Schuetzt alle state-changing Task-Aktionen vor fremden Formularposts.
-     * Beispiel: wird intern am Anfang von `store()`, `update()`, `delete()` aufgerufen.
-     */
-    private function assertCsrf(Request $request): void
-    {
-        $token = (string) ($_POST['csrf_token'] ?? '');
-        if (!hash_equals($request->csrfToken(), $token)) {
-            http_response_code(419);
-            echo 'Ungültiges CSRF-Token.';
-            exit;
-        }
     }
 
     /**
