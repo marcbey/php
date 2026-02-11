@@ -41,13 +41,27 @@ final class Security
      */
     public static function applyHeaders(): void
     {
-        // Verhindert MIME-Sniffing, damit Browser den Content-Type nicht erraten.
+        // Verhindert MIME-Sniffing:
+        // Browser duerfen Dateitypen nicht "erraten". So wird z. B. eine als Text gelieferte
+        // Antwort nicht als Script ausgefuehrt (Schutz gegen Content-Type-Verwirrung/XSS-Pfade).
         header('X-Content-Type-Options: nosniff');
-        // Beschraenkt den Referrer auf gleiche Origin und reduziert Datenlecks.
+        
+        // Reduziert Referrer-Datenlecks:
+        // Der Referer wird nur bei Requests zur gleichen Origin gesendet. Externe Ziele erhalten
+        // keine internen Pfade/Query-Parameter (z. B. IDs, Tokens in URLs).
         header('Referrer-Policy: same-origin');
-        // Blockiert Einbettung in Frames und reduziert Clickjacking-Risiko.
+        
+        // Schuetzt vor Clickjacking:
+        // Die Seite darf gar nicht in iframes eingebettet werden (DENY), damit Angreifer
+        // keine unsichtbaren Overlays fuer Fehlklicks auf sicherheitsrelevante Buttons bauen.
         header('X-Frame-Options: DENY');
-        // Definiert erlaubte Ressourcenquellen und haertet gegen XSS/Injection im Browser.
+        
+        // Content Security Policy (CSP) als zweite Verteidigungslinie gegen XSS/Injection:
+        // - default-src 'self': Ressourcen nur von eigener Origin
+        // - form-action 'self': Formulare duerfen nur an eigene Origin senden
+        // - frame-ancestors 'none': zusaetzlicher Frame/Clickjacking-Schutz via CSP
+        // - base-uri 'self': verhindert Missbrauch eines manipulierten <base>-Tags
+        // - style-src 'self' 'unsafe-inline': erlaubt eigene Styles + Inline-CSS (Trade-off)
         header("Content-Security-Policy: default-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; style-src 'self' 'unsafe-inline'");
     }
 
@@ -58,19 +72,22 @@ final class Security
      */
     public static function assertSameOrigin(array $server): void
     {
-        $host = (string) ($server['HTTP_HOST'] ?? '');
-        if ($host === '') {
-            return;
-        }
-
+        $host = (string) ($_ENV['HOST']);
         $origin = (string) ($server['HTTP_ORIGIN'] ?? '');
         $referer = (string) ($server['HTTP_REFERER'] ?? '');
 
         $originHost = self::extractHost($origin);
         $refererHost = self::extractHost($referer);
 
-        if (($originHost !== null && !hash_equals($host, $originHost))
-            || ($refererHost !== null && !hash_equals($host, $refererHost))) {
+        // Wenn ein Origin-Header vorhanden ist, muss er exakt dem erwarteten Host entsprechen.
+        if ($originHost !== null && !hash_equals($host, $originHost)) {
+            http_response_code(403);
+            echo 'Ungültige Request-Origin.';
+            exit;
+        }
+
+        // Wenn ein Referer-Header vorhanden ist, muss auch dieser zur gleichen Origin gehören.
+        if ($refererHost !== null && !hash_equals($host, $refererHost)) {
             http_response_code(403);
             echo 'Ungültige Request-Origin.';
             exit;
