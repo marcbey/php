@@ -1,6 +1,15 @@
 <?php
 
-// Autoloader fuer dieses Projekt ohne Composer:
+// Autoloader fuer dieses Projekt ohne Composer.
+// Hinweis: Aktuell wird diese Datei nicht aktiv eingebunden, da `public/index.php`
+// momentan mit expliziten `require_once`-Includes arbeitet.
+//
+// Reaktivierung:
+// - In `public/index.php` die auskommentierte Zeile
+//   `require __DIR__ . '/../src/Support/autoload.php';` wieder aktivieren
+// - und die manuellen `require_once`-Zeilen entfernen.
+//
+// Urspruengliche Funktionsweise:
 // 1) PHP uebergibt den angeforderten Klassennamen an die Callback-Funktion.
 // 2) Es werden nur Klassen mit Prefix `App\` verarbeitet; alles andere wird ignoriert.
 // 3) Der Namespace-Teil hinter `App\` wird in einen Dateipfad umgewandelt.

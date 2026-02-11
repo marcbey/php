@@ -1,6 +1,6 @@
 <?php
 
-// Rendert View-Templates mit Daten und laedt den gemeinsamen Escaping-Helper.
+// Rendert View-Templates mit uebergebenen Daten.
 
 declare(strict_types=1);
 
@@ -15,7 +15,6 @@ final class View
             return 'Template nicht gefunden.';
         }
 
-        require_once __DIR__ . '/helpers.php';
         extract($data, EXTR_SKIP);
 
         ob_start();

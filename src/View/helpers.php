@@ -1,6 +1,7 @@
 <?php
 
 // Gemeinsamer HTML-Escaping-Helper fuer Templates zur Vermeidung von XSS-Ausgabeinjektion.
+// Beispielaufruf im Template: `<?= e($task->title())
 
 declare(strict_types=1);
 
