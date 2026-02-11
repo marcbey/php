@@ -41,9 +41,13 @@ final class Security
      */
     public static function applyHeaders(): void
     {
+        // Verhindert MIME-Sniffing, damit Browser den Content-Type nicht erraten.
         header('X-Content-Type-Options: nosniff');
+        // Beschraenkt den Referrer auf gleiche Origin und reduziert Datenlecks.
         header('Referrer-Policy: same-origin');
+        // Blockiert Einbettung in Frames und reduziert Clickjacking-Risiko.
         header('X-Frame-Options: DENY');
+        // Definiert erlaubte Ressourcenquellen und haertet gegen XSS/Injection im Browser.
         header("Content-Security-Policy: default-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; style-src 'self' 'unsafe-inline'");
     }
 
