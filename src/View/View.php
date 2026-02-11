@@ -3,8 +3,10 @@
 // Rendert View-Templates mit uebergebenen Daten.
 // Beispielaufruf: `echo View::render('layout', ['content' => $content, 'entity' => $entity]);`
 
+// Erzwingt strikte Typpruefung in dieser Datei (keine impliziten Typumwandlungen).
 declare(strict_types=1);
 
+// Definiert den Namespace der View-Schicht fuer saubere Klassenorganisation und Imports.
 namespace App\View;
 
 final class View
