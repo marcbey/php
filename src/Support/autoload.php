@@ -1,6 +1,6 @@
 <?php
 
-// Lightweight namespace autoloader for App classes without requiring Composer.
+// Leichter Namespace-Autoloader fuer App-Klassen ohne Composer-Zwang.
 
 declare(strict_types=1);
 

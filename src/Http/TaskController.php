@@ -1,6 +1,6 @@
 <?php
 
-// Handles task CRUD flow: validate input, enforce CSRF, call repository, render views.
+// Steuert den Task-CRUD-Flow: validieren, CSRF erzwingen, Repository aufrufen, Views rendern.
 
 declare(strict_types=1);
 
@@ -12,11 +12,19 @@ use App\View\View;
 
 final class TaskController
 {
+    /**
+     * Verdrahtet Task-Persistenz und Task-Validierungslogik fuer alle Task-Aktionen.
+     * Beispiel: `new TaskController(new TaskRepository($pdo), new TaskService())` in `index.php`.
+     */
     public function __construct(
         private TaskRepository $repository,
         private TaskService $service
     ) {}
 
+    /**
+     * Rendert die Task-Uebersicht mit allen Datensaetzen und optionaler Flash-Nachricht.
+     * Beispiel: GET `/?entity=tasks` fuehrt in `index.php` zu `TaskController::index()`.
+     */
     public function index(Request $request): string
     {
         $tasks = $this->repository->findAll();
@@ -28,6 +36,10 @@ final class TaskController
         ]);
     }
 
+    /**
+     * Rendert das Formular fuer das Erstellen einer neuen Aufgabe mit Initialwerten.
+     * Beispiel: GET `/?entity=tasks&action=create`.
+     */
     public function create(Request $request): string
     {
         return View::render('tasks/form', [
@@ -40,6 +52,11 @@ final class TaskController
         ]);
     }
 
+    /**
+     * Rendert das Bearbeitungsformular fuer eine vorhandene Aufgabe.
+     * Prueft vorher, ob die ID gueltig ist und der Datensatz existiert.
+     * Beispiel: GET `/?entity=tasks&action=edit&id=3`.
+     */
     public function edit(Request $request): string
     {
         $id = $request->id();
@@ -68,6 +85,11 @@ final class TaskController
         ]);
     }
 
+    /**
+     * Erstellt eine neue Aufgabe nach CSRF- und Validierungspruefung.
+     * Bei Fehlern wird das Formular inkl. Fehlermeldungen erneut gerendert.
+     * Beispiel: POST `/?entity=tasks&action=store`.
+     */
     public function store(Request $request): void
     {
         $this->assertCsrf($request);
@@ -96,6 +118,11 @@ final class TaskController
         Response::redirect('/?entity=tasks');
     }
 
+    /**
+     * Aktualisiert eine bestehende Aufgabe nach CSRF-, ID- und Validierungspruefung.
+     * Nutzt das immutable `withChanges()` des Task-Models fuer konsistente Datenuebergabe.
+     * Beispiel: POST `/?entity=tasks&action=update&id=3`.
+     */
     public function update(Request $request): void
     {
         $this->assertCsrf($request);
@@ -137,6 +164,11 @@ final class TaskController
         Response::redirect('/?entity=tasks');
     }
 
+    /**
+     * Loescht eine Aufgabe nach CSRF- und ID-Pruefung.
+     * Wird ueber Method-Override (`_method=DELETE`) aus der Listenansicht aufgerufen.
+     * Beispiel: POST `/?entity=tasks&action=delete&id=3` mit `_method=DELETE`.
+     */
     public function delete(Request $request): void
     {
         $this->assertCsrf($request);
@@ -152,6 +184,11 @@ final class TaskController
         Response::redirect('/?entity=tasks');
     }
 
+    /**
+     * Vergleicht Session-CSRF-Token mit Form-Token und bricht bei Abweichung ab.
+     * Schuetzt alle state-changing Task-Aktionen vor fremden Formularposts.
+     * Beispiel: wird intern am Anfang von `store()`, `update()`, `delete()` aufgerufen.
+     */
     private function assertCsrf(Request $request): void
     {
         $token = (string) ($_POST['csrf_token'] ?? '');
@@ -162,11 +199,19 @@ final class TaskController
         }
     }
 
+    /**
+     * Speichert eine einmalige Benutzer-Nachricht in der Session (Flash-Message).
+     * Beispiel: `$this->flash('Eintrag erstellt.');` vor Redirect.
+     */
     private function flash(string $message): void
     {
         $_SESSION['tasks_flash'] = $message;
     }
 
+    /**
+     * Holt und entfernt die Flash-Nachricht fuer die naechste Darstellung.
+     * Beispiel: `'flash' => $this->pullFlash()` in `index()`.
+     */
     private function pullFlash(): ?string
     {
         $message = $_SESSION['tasks_flash'] ?? null;

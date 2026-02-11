@@ -1,6 +1,6 @@
 <?php
 
-// Creates and configures the PDO connection with secure for MariaDB access.
+// Erstellt und konfiguriert die PDO-Verbindung mit sicheren Defaults fuer MariaDB.
 
 declare(strict_types=1);
 
@@ -34,6 +34,11 @@ final class Database
         }
     }
 
+    /**
+     * Liest eine Umgebungsvariable mit Fallback auf Defaultwert.
+     * Verhindert leere Konfigurationswerte, damit DB-Verbindungsaufbau stabil bleibt.
+     * Beispiel: `self::env('DB_PORT', '3306')` in `pdo()`.
+     */
     private static function env(string $key, string $default): string
     {
         $value = $_ENV[$key] ?? getenv($key);

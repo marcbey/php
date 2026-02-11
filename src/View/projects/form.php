@@ -1,4 +1,4 @@
-<!-- Project form template used for create and edit modes. -->
+<!-- Projekt-Formular-Template fuer Erstellen- und Bearbeiten-Modus. -->
 <section class="header">
   <div>
     <h1><?= $mode === 'edit' ? 'Projekt bearbeiten' : 'Neues Projekt' ?></h1>

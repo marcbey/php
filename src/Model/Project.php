@@ -1,6 +1,6 @@
 <?php
 
-// Typed project entity with database row hydration and immutable update helper methods.
+// Stark typisierte Projekt-Entitaet mit Row-Hydration und immutable Update-Helpern.
 
 declare(strict_types=1);
 
@@ -10,6 +10,11 @@ use DateTimeImmutable;
 
 final class Project
 {
+    /**
+     * Erstellt ein Project-Domainobjekt aus validierten Daten.
+     * Wird von Repository-Methoden fuer neue und geladene Datensaetze verwendet.
+     * Beispiel: `new Project($id, $name, $client, $budget, $status, $now, $now)`.
+     */
     public function __construct(
         private ?int $id,
         private string $name,
@@ -20,6 +25,11 @@ final class Project
         private DateTimeImmutable $updatedAt
     ) {}
 
+    /**
+     * Hydriert ein Project-Objekt aus einer DB-Zeile.
+     * Konvertiert Datumsfelder in `DateTimeImmutable` und bewahrt Typkonsistenz.
+     * Beispiel: `Project::fromRow($row)` in `ProjectRepository::findById()`.
+     */
     public static function fromRow(array $row): self
     {
         return new self(
@@ -33,14 +43,74 @@ final class Project
         );
     }
 
-    public function id(): ?int { return $this->id; }
-    public function name(): string { return $this->name; }
-    public function clientName(): ?string { return $this->clientName; }
-    public function budget(): ?string { return $this->budget; }
-    public function status(): string { return $this->status; }
-    public function createdAt(): DateTimeImmutable { return $this->createdAt; }
-    public function updatedAt(): DateTimeImmutable { return $this->updatedAt; }
+    /**
+     * Gibt die Projekt-ID zurueck.
+     * Beispiel: `$project->id()` fuer Edit/Delete-URL-Parameter.
+     */
+    public function id(): ?int
+    {
+        return $this->id;
+    }
 
+    /**
+     * Gibt den Projektnamen zurueck.
+     * Beispiel: `<?= e($project->name()) ?>` in der Projektliste.
+     */
+    public function name(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * Gibt den optionalen Kundennamen zurueck.
+     * Beispiel: Fallback auf `-` in der View, wenn `null`.
+     */
+    public function clientName(): ?string
+    {
+        return $this->clientName;
+    }
+
+    /**
+     * Gibt das optionale Budget als normalisierten Decimal-String zurueck.
+     * Beispiel: `<?= e($project->budget() . ' EUR') ?>` in `projects/list.php`.
+     */
+    public function budget(): ?string
+    {
+        return $this->budget;
+    }
+
+    /**
+     * Gibt den Projektstatus (`planned`, `active`, `completed`) zurueck.
+     * Beispiel: Badge-Styling ueber `badge-<?= e($project->status()) ?>`.
+     */
+    public function status(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * Gibt den Erstellzeitpunkt des Projekts zurueck.
+     * Beispiel: kann fuer Timeline- oder Audit-Features genutzt werden.
+     */
+    public function createdAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Gibt den letzten Aenderungszeitpunkt des Projekts zurueck.
+     * Beispiel: Anzeige in der Tabellen-Spalte "Aktualisiert".
+     */
+    public function updatedAt(): DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Erzeugt eine neue Project-Instanz mit geaenderten Werten.
+     * Das Originalobjekt bleibt unveraendert; `updatedAt` wird neu gesetzt.
+     * Beispiel: `$updated = $project->withChanges(...);` vor `repository->update($updated)`.
+     */
     public function withChanges(string $name, ?string $clientName, ?string $budget, string $status): self
     {
         return new self(

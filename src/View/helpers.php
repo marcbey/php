@@ -1,6 +1,6 @@
 <?php
 
-// Shared HTML escaping helper used in templates to prevent XSS output injection.
+// Gemeinsamer HTML-Escaping-Helper fuer Templates zur Vermeidung von XSS-Ausgabeinjektion.
 
 declare(strict_types=1);
 

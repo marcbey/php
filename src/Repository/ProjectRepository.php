@@ -1,6 +1,6 @@
 <?php
 
-// Encapsulates project persistence queries using PDO prepared statements.
+// Kapselt Projekt-Persistenzabfragen mit PDO Prepared Statements.
 
 declare(strict_types=1);
 
@@ -12,9 +12,18 @@ use PDO;
 
 final class ProjectRepository
 {
+    /**
+     * Konstruiert das Projekt-Repository mit zentraler PDO-Verbindung.
+     * Beispiel: `new ProjectRepository(Database::pdo())` im Bootstrapping.
+     */
     public function __construct(private PDO $pdo) {}
 
-    /** @return Project[] */
+    /**
+     * Liefert alle Projekte sortiert nach letzter Aktualisierung (neueste zuerst).
+     * Beispiel: `$projects = $projectRepository->findAll();` in `ProjectController::index()`.
+     *
+     * @return Project[]
+     */
     public function findAll(): array
     {
         $stmt = $this->pdo->query('SELECT * FROM projects ORDER BY updated_at DESC');
@@ -23,6 +32,10 @@ final class ProjectRepository
         return array_map(static fn (array $row): Project => Project::fromRow($row), $rows);
     }
 
+    /**
+     * Sucht ein einzelnes Projekt per ID mit Prepared Statement.
+     * Beispiel: `$project = $projectRepository->findById($id);` in Edit-Flow.
+     */
     public function findById(int $id): ?Project
     {
         $stmt = $this->pdo->prepare('SELECT * FROM projects WHERE id = :id');
@@ -32,6 +45,11 @@ final class ProjectRepository
         return $row ? Project::fromRow($row) : null;
     }
 
+    /**
+     * Persistiert ein neues Projekt und gibt das erzeugte Domainobjekt zurueck.
+     * Budget wird als vorberechneter DECIMAL-String aus dem Service uebernommen.
+     * Beispiel: `$projectRepository->create($name, $client, $budget, $status);`.
+     */
     public function create(string $name, ?string $clientName, ?string $budget, string $status): Project
     {
         $now = new DateTimeImmutable('now');
@@ -53,6 +71,10 @@ final class ProjectRepository
         return new Project((int) $this->pdo->lastInsertId(), $name, $clientName, $budget, $status, $now, $now);
     }
 
+    /**
+     * Aktualisiert ein bestehendes Projekt mit den Werten des Domainobjekts.
+     * Beispiel: `$projectRepository->update($updatedProject);` in `ProjectController::update()`.
+     */
     public function update(Project $project): bool
     {
         $stmt = $this->pdo->prepare(
@@ -71,6 +93,10 @@ final class ProjectRepository
         ]);
     }
 
+    /**
+     * Loescht ein Projekt per ID mit Prepared Statement.
+     * Beispiel: `$projectRepository->delete($id);` in `ProjectController::delete()`.
+     */
     public function delete(int $id): bool
     {
         $stmt = $this->pdo->prepare('DELETE FROM projects WHERE id = :id');

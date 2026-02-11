@@ -1,4 +1,4 @@
-<!-- Task form template used for create and edit modes. -->
+<!-- Task-Formular-Template fuer Erstellen- und Bearbeiten-Modus. -->
 <section class="header">
   <div>
     <h1><?= $mode === 'edit' ? 'Aufgabe bearbeiten' : 'Neue Aufgabe' ?></h1>

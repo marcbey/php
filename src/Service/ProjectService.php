@@ -1,6 +1,6 @@
 <?php
 
-// Validates and normalizes project form payloads including budget parsing rules.
+// Validiert und normalisiert Projekt-Formulardaten inklusive Budget-Parsing.
 
 declare(strict_types=1);
 
@@ -10,6 +10,12 @@ final class ProjectService
 {
     private const STATUS_VALUES = ['planned', 'active', 'completed'];
 
+    /**
+     * Validiert Project-Eingaben inklusive Budgetformat und normalisiert Persistenzdaten.
+     * Die Methode erzwingt eine Status-Whitelist und bereitet Budget als DECIMAL-String auf,
+     * passend zur DB-Spalte `projects.budget`.
+     * Beispiel: `$result = $projectService->validate($_POST);` in `ProjectController::update()`.
+     */
     public function validate(array $input): ValidationResult
     {
         $name = trim((string) ($input['name'] ?? ''));
@@ -55,7 +61,13 @@ final class ProjectService
         );
     }
 
-    /** @return string[] */
+    /**
+     * Liefert erlaubte Projektstatuswerte fuer Select-Felder und Validierung.
+     * Haelt UI-Optionen und Serverlogik konsistent.
+     * Beispiel: `'statuses' => $projectService->statuses()` in `ProjectController::create()`.
+     *
+     * @return string[]
+     */
     public function statuses(): array
     {
         return self::STATUS_VALUES;

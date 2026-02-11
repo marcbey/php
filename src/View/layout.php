@@ -1,4 +1,4 @@
-<!-- Shared page shell with navigation between task and project CRUD areas. -->
+<!-- Gemeinsames Seitenlayout mit Navigation zwischen Task- und Project-CRUD-Bereichen. -->
 <!doctype html>
 <html lang="de">
   <head>

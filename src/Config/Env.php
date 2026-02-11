@@ -1,6 +1,6 @@
 <?php
 
-// Loads .env key/value pairs into process environment variables for local configuration.
+// Laedt .env-Key/Value-Paare in Umgebungsvariablen fuer lokale Konfiguration.
 
 declare(strict_types=1);
 
@@ -8,6 +8,11 @@ namespace App\Config;
 
 final class Env
 {
+    /**
+     * Laedt die .env-Datei fuer lokale Laufzeit-Konfiguration in `$_ENV` und `putenv`.
+     * Ueberschreibt nur die gelesenen Keys und ignoriert Kommentare/Leerzeilen.
+     * Beispiel: `Env::load(__DIR__ . '/../.env');` im Front Controller.
+     */
     public static function load(string $path): void
     {
         if (!is_file($path)) {
@@ -39,6 +44,11 @@ final class Env
         }
     }
 
+    /**
+     * Entfernt umschliessende einfache oder doppelte Anfuehrungszeichen aus .env-Werten.
+     * So werden Werte wie `"secret"` korrekt als `secret` verarbeitet.
+     * Beispiel: `DB_PASS="my-pass"` wird in `DB_PASS=my-pass` transformiert.
+     */
     private static function stripQuotes(string $value): string
     {
         if ((str_starts_with($value, '"') && str_ends_with($value, '"'))

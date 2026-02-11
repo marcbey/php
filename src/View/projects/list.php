@@ -1,6 +1,6 @@
 <?php
 
-// Project index template: list records and expose edit/delete actions.
+// Projekt-Index-Template: listet Datensaetze und bietet Bearbeiten-/Loeschen-Aktionen.
 /** @var App\Model\Project[] $projects */
 ?>
 <section class="header">

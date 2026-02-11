@@ -1,6 +1,6 @@
 <?php
 
-// Renders view templates with provided data and shared escaping helper loading.
+// Rendert View-Templates mit Daten und laedt den gemeinsamen Escaping-Helper.
 
 declare(strict_types=1);
 

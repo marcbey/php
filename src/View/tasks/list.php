@@ -1,6 +1,6 @@
 <?php
 
-// Task index template: list records and expose edit/delete actions.
+// Task-Index-Template: listet Datensaetze und bietet Bearbeiten-/Loeschen-Aktionen.
 /** @var App\Model\Task[] $tasks */
 ?>
 <section class="header">

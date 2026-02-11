@@ -1,6 +1,6 @@
 <?php
 
-// Validates and normalizes task form payloads before persistence.
+// Validiert und normalisiert Task-Formulardaten vor der Persistierung.
 
 declare(strict_types=1);
 
@@ -10,6 +10,12 @@ final class TaskService
 {
     private const STATUS_VALUES = ['todo', 'in_progress', 'done'];
 
+    /**
+     * Validiert Task-Eingaben aus Formularen und normalisiert Werte fuer Repository-Calls.
+     * Schuetzt Datenintegritaet (Laengen, Pflichtfeld, Status-Whitelist) und liefert
+     * ein `ValidationResult` fuer Controller-Entscheidungen.
+     * Beispiel: `$result = $taskService->validate($_POST);` in `TaskController::store()`.
+     */
     public function validate(array $input): ValidationResult
     {
         $title = trim((string) ($input['title'] ?? ''));
@@ -43,7 +49,13 @@ final class TaskService
         );
     }
 
-    /** @return string[] */
+    /**
+     * Liefert erlaubte Task-Statuswerte fuer Formulare und serverseitige Validierung.
+     * Vermeidet duplizierte Statusdefinitionen zwischen View und Business-Logik.
+     * Beispiel: `'statuses' => $taskService->statuses()` in `TaskController::create()`.
+     *
+     * @return string[]
+     */
     public function statuses(): array
     {
         return self::STATUS_VALUES;

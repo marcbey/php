@@ -1,6 +1,6 @@
 <?php
 
-// Immutable validation DTO carrying normalized data plus user-facing error messages.
+// Unveraenderliches Validierungs-DTO mit normalisierten Daten und nutzerbezogenen Fehlermeldungen.
 
 declare(strict_types=1);
 
@@ -8,7 +8,14 @@ namespace App\Service;
 
 final class ValidationResult
 {
-    /** @param string[] $errors */
+    /**
+     * Baut ein standardisiertes Ergebnisobjekt fuer Formularvalidierung in Tasks/Projects.
+     * `ok` steuert den Controller-Flow, `errors` wird im Formular gerendert,
+     * `data` enthaelt normalisierte Werte fuer Persistenz oder Re-Rendering.
+     * Beispiel: `$result = $service->validate($_POST); if (!$result->ok) { ... }`.
+     *
+     * @param string[] $errors
+     */
     public function __construct(
         public readonly bool $ok,
         public readonly array $errors,

@@ -1,6 +1,6 @@
 <?php
 
-// Handles project CRUD flow: validate input, enforce CSRF, call repository, render views.
+// Steuert den Project-CRUD-Flow: validieren, CSRF erzwingen, Repository aufrufen, Views rendern.
 
 declare(strict_types=1);
 
@@ -12,11 +12,19 @@ use App\View\View;
 
 final class ProjectController
 {
+    /**
+     * Verdrahtet Project-Repository und Project-Service fuer alle Projektaktionen.
+     * Beispiel: `new ProjectController(new ProjectRepository($pdo), new ProjectService())`.
+     */
     public function __construct(
         private ProjectRepository $repository,
         private ProjectService $service
     ) {}
 
+    /**
+     * Rendert die Projekt-Uebersicht mit Datensaetzen und Flash-Nachricht.
+     * Beispiel: GET `/?entity=projects`.
+     */
     public function index(Request $request): string
     {
         $projects = $this->repository->findAll();
@@ -28,6 +36,10 @@ final class ProjectController
         ]);
     }
 
+    /**
+     * Rendert das Formular fuer ein neues Projekt mit Defaultwerten.
+     * Beispiel: GET `/?entity=projects&action=create`.
+     */
     public function create(Request $request): string
     {
         return View::render('projects/form', [
@@ -45,6 +57,11 @@ final class ProjectController
         ]);
     }
 
+    /**
+     * Rendert das Bearbeitungsformular fuer ein bestehendes Projekt.
+     * Gueltigkeits- und Existenzpruefung erfolgen vor dem Rendern.
+     * Beispiel: GET `/?entity=projects&action=edit&id=5`.
+     */
     public function edit(Request $request): string
     {
         $id = $request->id();
@@ -74,6 +91,11 @@ final class ProjectController
         ]);
     }
 
+    /**
+     * Erstellt ein Projekt nach CSRF- und Validierungspruefung.
+     * Bei Validierungsfehlern wird das Formular mit Fehlern erneut ausgegeben.
+     * Beispiel: POST `/?entity=projects&action=store`.
+     */
     public function store(Request $request): void
     {
         $this->assertCsrf($request);
@@ -103,6 +125,11 @@ final class ProjectController
         Response::redirect('/?entity=projects');
     }
 
+    /**
+     * Aktualisiert ein bestehendes Projekt inkl. Budget-Normalisierung.
+     * Nutzt `withChanges()` fuer ein konsistentes immutable Model-Update.
+     * Beispiel: POST `/?entity=projects&action=update&id=5`.
+     */
     public function update(Request $request): void
     {
         $this->assertCsrf($request);
@@ -145,6 +172,11 @@ final class ProjectController
         Response::redirect('/?entity=projects');
     }
 
+    /**
+     * Loescht ein Projekt nach CSRF- und ID-Pruefung.
+     * Aufruf erfolgt aus der Projektliste via POST + `_method=DELETE`.
+     * Beispiel: POST `/?entity=projects&action=delete&id=5`.
+     */
     public function delete(Request $request): void
     {
         $this->assertCsrf($request);
@@ -160,6 +192,10 @@ final class ProjectController
         Response::redirect('/?entity=projects');
     }
 
+    /**
+     * Erzwingt gueltiges CSRF-Token fuer alle schreibenden Projektoperationen.
+     * Beispiel: interner Guard in `store()`, `update()`, `delete()`.
+     */
     private function assertCsrf(Request $request): void
     {
         $token = (string) ($_POST['csrf_token'] ?? '');
@@ -170,11 +206,19 @@ final class ProjectController
         }
     }
 
+    /**
+     * Speichert eine einmalige Meldung fuer den naechsten Seitenaufruf.
+     * Beispiel: `$this->flash('Projekt erstellt.');`.
+     */
     private function flash(string $message): void
     {
         $_SESSION['projects_flash'] = $message;
     }
 
+    /**
+     * Gibt die gespeicherte Flash-Meldung zurueck und entfernt sie aus der Session.
+     * Beispiel: `'flash' => $this->pullFlash()` in `index()`.
+     */
     private function pullFlash(): ?string
     {
         $message = $_SESSION['projects_flash'] ?? null;

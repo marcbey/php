@@ -1,6 +1,6 @@
 <?php
 
-// Front controller: boots security/session, wires dependencies, and routes task/project CRUD actions.
+// Front Controller: initialisiert Security/Session, verdrahtet Abhaengigkeiten und routet Task/Project-CRUD-Aktionen.
 
 declare(strict_types=1);
 
