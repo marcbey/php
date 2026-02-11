@@ -53,6 +53,30 @@ final class TaskController
     }
 
     /**
+     * Rendert die Detailansicht einer Aufgabe im Read-Only-Modus.
+     * Prueft vorher, ob die ID gueltig ist und der Datensatz existiert.
+     * Beispiel: GET `/?entity=tasks&action=show&id=3`.
+     */
+    public function show(Request $request): string
+    {
+        $id = $request->id();
+        if ($id === null) {
+            $this->flash('Ungültige ID.');
+            Response::redirect('/?entity=tasks');
+        }
+
+        $task = $this->repository->findById($id);
+        if ($task === null) {
+            $this->flash('Eintrag nicht gefunden.');
+            Response::redirect('/?entity=tasks');
+        }
+
+        return View::render('tasks/show', [
+            'task' => $task,
+        ]);
+    }
+
+    /**
      * Rendert das Bearbeitungsformular fuer eine vorhandene Aufgabe.
      * Prueft vorher, ob die ID gueltig ist und der Datensatz existiert.
      * Beispiel: GET `/?entity=tasks&action=edit&id=3`.

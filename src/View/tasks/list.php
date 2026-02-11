@@ -39,6 +39,7 @@
           <td><span class="badge badge-<?= e($task->status()) ?>"><?= e($task->status()) ?></span></td>
           <td><?= e($task->updatedAt()->format('d.m.Y H:i')) ?></td>
           <td class="actions">
+            <a class="btn btn-secondary" href="/?entity=tasks&action=show&id=<?= $task->id() ?>">Anzeigen</a>
             <a class="btn btn-secondary" href="/?entity=tasks&action=edit&id=<?= $task->id() ?>">Bearbeiten</a>
             <form method="post" action="/?entity=tasks&action=delete&id=<?= $task->id() ?>" class="inline">
               <input type="hidden" name="_method" value="DELETE">

@@ -9,6 +9,7 @@ namespace App\Http;
 final class Request
 {
     public const ACTION_INDEX = 'index';
+    public const ACTION_SHOW = 'show';
     public const ACTION_CREATE = 'create';
     public const ACTION_EDIT = 'edit';
     public const ACTION_STORE = 'store';
@@ -16,6 +17,7 @@ final class Request
     public const ACTION_DELETE = 'delete';
     public const ACTIONS = [
         self::ACTION_INDEX,
+        self::ACTION_SHOW,
         self::ACTION_CREATE,
         self::ACTION_EDIT,
         self::ACTION_STORE,

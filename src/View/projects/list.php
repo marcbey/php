@@ -38,6 +38,7 @@
           <td><span class="badge badge-<?= e($project->status()) ?>"><?= e($project->status()) ?></span></td>
           <td><?= e($project->updatedAt()->format('d.m.Y H:i')) ?></td>
           <td class="actions">
+            <a class="btn btn-secondary" href="/?entity=projects&action=show&id=<?= $project->id() ?>">Anzeigen</a>
             <a class="btn btn-secondary" href="/?entity=projects&action=edit&id=<?= $project->id() ?>">Bearbeiten</a>
             <form method="post" action="/?entity=projects&action=delete&id=<?= $project->id() ?>" class="inline">
               <input type="hidden" name="_method" value="DELETE">

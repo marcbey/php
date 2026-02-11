@@ -58,6 +58,30 @@ final class ProjectController
     }
 
     /**
+     * Rendert die Detailansicht eines Projekts im Read-Only-Modus.
+     * Gueltigkeits- und Existenzpruefung erfolgen vor dem Rendern.
+     * Beispiel: GET `/?entity=projects&action=show&id=5`.
+     */
+    public function show(Request $request): string
+    {
+        $id = $request->id();
+        if ($id === null) {
+            $this->flash('Ungültige ID.');
+            Response::redirect('/?entity=projects');
+        }
+
+        $project = $this->repository->findById($id);
+        if ($project === null) {
+            $this->flash('Eintrag nicht gefunden.');
+            Response::redirect('/?entity=projects');
+        }
+
+        return View::render('projects/show', [
+            'project' => $project,
+        ]);
+    }
+
+    /**
      * Rendert das Bearbeitungsformular fuer ein bestehendes Projekt.
      * Gueltigkeits- und Existenzpruefung erfolgen vor dem Rendern.
      * Beispiel: GET `/?entity=projects&action=edit&id=5`.

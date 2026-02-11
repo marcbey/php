@@ -87,6 +87,8 @@ if ($request->isPost()) {
 } else {
     if ($action === Request::ACTION_CREATE) {
         $content = $controller->create($request);
+    } elseif ($action === Request::ACTION_SHOW) {
+        $content = $controller->show($request);
     } elseif ($action === Request::ACTION_EDIT) {
         $content = $controller->edit($request);
     } else {
