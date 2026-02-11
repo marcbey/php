@@ -4,6 +4,12 @@
 
 declare(strict_types=1);
 
+// Zusammenhang `namespace` + `require_once` + `use`:
+// 1) `require_once` laedt die PHP-Datei, damit die Klasse/Funktion ueberhaupt bekannt ist.
+// 2) In der geladenen Datei ordnet `namespace App\...` die Klasse logisch ein und verhindert Namenskonflikte.
+// 3) `use App\...` importiert diesen vollqualifizierten Namen als Kurzname fuer diese Datei.
+// Kurz: `require_once` macht die Definition verfuegbar, `namespace` gibt ihr den eindeutigen Pfad,
+// und `use` sorgt dafuer, dass wir sie hier bequem ohne langen Namen verwenden koennen.
 use App\Config\Database;
 use App\Config\Env;
 use App\Http\ProjectController;
@@ -18,6 +24,7 @@ use App\View\View;
 
 // require __DIR__ . '/../src/Support/autoload.php';
 // Aktuell manuelles Laden statt Autoloader, um den Bootstrap explizit zu halten.
+// Diese `require_once`-Zeilen ersetzen hier praktisch den Composer-Autoloader.
 require_once __DIR__ . '/../src/Config/Database.php';
 require_once __DIR__ . '/../src/Config/Env.php';
 require_once __DIR__ . '/../src/Http/ProjectController.php';
