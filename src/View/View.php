@@ -11,6 +11,8 @@ final class View
 {
     public static function render(string $template, array $data = []): string
     {
+        // Baut den absoluten Dateipfad zum gewuenschten Template auf.
+        // Beispiel: `tasks/list` wird zu `src/View/tasks/list.php`.
         $path = __DIR__ . '/' . $template . '.php';
         if (!is_file($path)) {
             return 'Template nicht gefunden.';
@@ -23,8 +25,10 @@ final class View
         // Startet einen Output-Buffer, damit die Template-Ausgabe als String
         // zurueckgegeben werden kann statt direkt an den Browser zu gehen.
         ob_start();
+        
         // Fuehrt die eigentliche Template-Datei aus.
         include $path;
+        
         // Liefert den gepufferten Inhalt als gerenderten HTML-String zurueck.
         return (string) ob_get_clean();
     }
