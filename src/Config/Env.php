@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: Env module in the src layer for the CRUD demo app.
+// Loads .env key/value pairs into process environment variables for local configuration.
 
 declare(strict_types=1);
 

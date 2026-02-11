@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: TaskService module in the src layer for the CRUD demo app.
+// Validates and normalizes task form payloads before persistence.
 
 declare(strict_types=1);
 

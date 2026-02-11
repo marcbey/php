@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: list module in the src layer for the CRUD demo app.
+// Task index template: list records and expose edit/delete actions.
 /** @var App\Model\Task[] $tasks */
 ?>
 <section class="header">

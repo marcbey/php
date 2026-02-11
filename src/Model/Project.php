@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: Project module in the src layer for the CRUD demo app.
+// Typed project entity with database row hydration and immutable update helper methods.
 
 declare(strict_types=1);
 

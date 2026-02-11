@@ -1,4 +1,4 @@
-<!-- File purpose: form template in the src view layer for the CRUD demo app. -->
+<!-- Project form template used for create and edit modes. -->
 <section class="header">
   <div>
     <h1><?= $mode === 'edit' ? 'Projekt bearbeiten' : 'Neues Projekt' ?></h1>

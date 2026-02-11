@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: TaskController module in the src layer for the CRUD demo app.
+// Handles task CRUD flow: validate input, enforce CSRF, call repository, render views.
 
 declare(strict_types=1);
 

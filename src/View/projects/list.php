@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: list module in the src layer for the CRUD demo app.
+// Project index template: list records and expose edit/delete actions.
 /** @var App\Model\Project[] $projects */
 ?>
 <section class="header">

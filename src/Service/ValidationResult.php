@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: ValidationResult module in the src layer for the CRUD demo app.
+// Immutable validation DTO carrying normalized data plus user-facing error messages.
 
 declare(strict_types=1);
 

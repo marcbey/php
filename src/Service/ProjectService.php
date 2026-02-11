@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: ProjectService module in the src layer for the CRUD demo app.
+// Validates and normalizes project form payloads including budget parsing rules.
 
 declare(strict_types=1);
 

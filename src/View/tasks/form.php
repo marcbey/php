@@ -1,4 +1,4 @@
-<!-- File purpose: form template in the src view layer for the CRUD demo app. -->
+<!-- Task form template used for create and edit modes. -->
 <section class="header">
   <div>
     <h1><?= $mode === 'edit' ? 'Aufgabe bearbeiten' : 'Neue Aufgabe' ?></h1>

@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: Response module in the src layer for the CRUD demo app.
+// Provides minimal HTTP response helpers used by controllers (currently redirects).
 
 declare(strict_types=1);
 

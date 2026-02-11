@@ -1,5 +1,7 @@
 <?php
 
+// Front controller: boots security/session, wires dependencies, and routes task/project CRUD actions.
+
 declare(strict_types=1);
 
 use App\Config\Database;

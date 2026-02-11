@@ -1,4 +1,4 @@
-<!-- File purpose: layout template in the src view layer for the CRUD demo app. -->
+<!-- Shared page shell with navigation between task and project CRUD areas. -->
 <!doctype html>
 <html lang="de">
   <head>

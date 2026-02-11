@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: Request module in the src layer for the CRUD demo app.
+// Wraps request superglobals and whitelists entity/action/id inputs for safe routing.
 
 declare(strict_types=1);
 

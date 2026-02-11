@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: Database module in the src layer for the CRUD demo app.
+// Creates and configures the PDO connection with secure for MariaDB access.
 
 declare(strict_types=1);
 

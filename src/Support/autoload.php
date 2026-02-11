@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: autoload module in the src layer for the CRUD demo app.
+// Lightweight namespace autoloader for App classes without requiring Composer.
 
 declare(strict_types=1);
 

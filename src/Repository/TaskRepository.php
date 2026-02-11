@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: TaskRepository module in the src layer for the CRUD demo app.
+// Encapsulates task persistence queries using PDO prepared statements.
 
 declare(strict_types=1);
 

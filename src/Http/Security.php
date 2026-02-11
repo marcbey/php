@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: Security module in the src layer for the CRUD demo app.
+// Applies session hardening, security headers, and same-origin checks for state-changing requests.
 
 declare(strict_types=1);
 

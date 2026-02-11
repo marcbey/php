@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: View module in the src layer for the CRUD demo app.
+// Renders view templates with provided data and shared escaping helper loading.
 
 declare(strict_types=1);
 

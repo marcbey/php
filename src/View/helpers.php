@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: helpers module in the src layer for the CRUD demo app.
+// Shared HTML escaping helper used in templates to prevent XSS output injection.
 
 declare(strict_types=1);
 

@@ -1,6 +1,6 @@
 <?php
 
-// File purpose: Task module in the src layer for the CRUD demo app.
+// Typed task entity with database row hydration and immutable update helper methods.
 
 declare(strict_types=1);
 
