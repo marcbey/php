@@ -1,4 +1,15 @@
+# URL-Rewriting für Front-Controller aktivieren
 RewriteEngine On
+
+# Zusammenhang:
+# RewriteCond definiert Bedingungen für die direkt folgende RewriteRule.
+# Nur wenn ALLE RewriteCond erfüllt sind, wird die RewriteRule angewendet.
+
+# Rewrite nur ausführen, wenn die angefragte URL NICHT auf eine vorhandene Datei zeigt
 RewriteCond %{REQUEST_FILENAME} !-f
+
+# Rewrite nur ausführen, wenn die angefragte URL NICHT auf ein vorhandenes Verzeichnis zeigt
 RewriteCond %{REQUEST_FILENAME} !-d
+
+# Alle übrigen Requests an index.php weiterleiten (Query-String beibehalten)
 RewriteRule ^ index.php [QSA,L]

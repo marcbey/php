@@ -3,7 +3,9 @@
 // Rendert View-Templates mit uebergebenen Daten.
 // Beispielaufruf: `echo View::render('layout', ['content' => $content, 'entity' => $entity]);`
 
-// Erzwingt strikte Typpruefung in dieser Datei (keine impliziten Typumwandlungen).
+// Erzwingt strikte Typpruefung fuer skalare Parameter/Return-Werte in dieser Datei.
+// Das bedeutet: Bei falschem Typ wirft PHP einen TypeError statt still umzuwandeln
+// (z. B. kein automatisches "123" -> 123 bei int-Parametern).
 declare(strict_types=1);
 
 // Definiert den Namespace der View-Schicht fuer saubere Klassenorganisation und Imports.
